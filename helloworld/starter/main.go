@@ -11,7 +11,9 @@ import (
 
 func main() {
 	// The client is a heavyweight object that should be created once per process.
-	c, err := client.Dial(client.Options{})
+	c, err := client.Dial(client.Options{
+		HostPort: "192.168.8.42:7233",
+	})
 	if err != nil {
 		log.Fatalln("Unable to create client", err)
 	}
@@ -22,7 +24,7 @@ func main() {
 		TaskQueue: "hello-world",
 	}
 
-	we, err := c.ExecuteWorkflow(context.Background(), workflowOptions, helloworld.Workflow, "Temporal")
+	we, err := c.ExecuteWorkflow(context.Background(), workflowOptions, helloworld.MyWorkflow, "go DAG")
 	if err != nil {
 		log.Fatalln("Unable to execute workflow", err)
 	}
